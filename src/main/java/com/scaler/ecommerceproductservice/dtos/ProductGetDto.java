@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductResponseDto {
+public class ProductGetDto {
     //it has same attributes as model except those which we want to hide eg.
     // createdAt, updatedAt, deletedAt
     private long id;
@@ -19,8 +19,8 @@ public class ProductResponseDto {
     private double price;
     private String category;
 
-    public static ProductResponseDto fromProduct(Product product) {
-        ProductResponseDto productResponseDto = new ProductResponseDto();
+    public static ProductGetDto fromProduct(Product product) {
+        ProductGetDto productResponseDto = new ProductGetDto();
         productResponseDto.setId(product.getId());
         productResponseDto.setName(product.getName());
         productResponseDto.setDescription(product.getDescription());

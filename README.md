@@ -2,5 +2,6 @@
 This has code base for product-service of my ecommerce website, built as part of my capstone project.
 
 ### APIs supported
-1. **/products/id**: To get details of the product with given id
-2. **/products**: To get list of all products
+1. **GET /products/id**: To get details of the product with given id.
+2. **GET /products**: To get list of all products.
+3. **POST /products**: To create a new product.

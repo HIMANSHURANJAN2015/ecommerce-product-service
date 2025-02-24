@@ -7,9 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FakeStoreProductDto {
+public class FakeStoreProductGetDto {
 
-    //it has same attributes as response from FakesSToreAPI, except those which we dont need
+    //Attributes are based on GET response format by FakeStoreAPI, except those which we dont need.
     private long id;
     private String title; //KIM: its "name" in our model, but in response of fakestore its "title".
     private double price;

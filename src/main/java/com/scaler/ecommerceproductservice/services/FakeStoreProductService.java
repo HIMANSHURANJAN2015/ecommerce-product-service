@@ -1,6 +1,7 @@
 package com.scaler.ecommerceproductservice.services;
 
-import com.scaler.ecommerceproductservice.dtos.FakeStoreProductDto;
+import com.scaler.ecommerceproductservice.dtos.FakeStoreProductGetDto;
+import com.scaler.ecommerceproductservice.dtos.FakeStoreProductPostDto;
 import com.scaler.ecommerceproductservice.models.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,29 +21,46 @@ public class FakeStoreProductService implements ProductService {
         this.restTemplate = apiClient;
     }
 
-
     @Override
     public Product getProductById(long id) {
         //FakeStore product should not be dumbed directly to our product, so we create
         //FakeStoreProductDto.java
-        FakeStoreProductDto fakeStoreProductDto = this.restTemplate.getForObject(
+        FakeStoreProductGetDto fakeStoreProductGetDto = this.restTemplate.getForObject(
                 "https://fakestoreapi.com/products/"+id,
-                FakeStoreProductDto.class
+                FakeStoreProductGetDto.class
         );
-        return fakeStoreProductDto.toProduct();
+        return fakeStoreProductGetDto.toProduct();
     }
 
     @Override
     public List<Product> getAllProducts() {
-        FakeStoreProductDto[] fakeStoreProductDtos = this.restTemplate.getForObject(
+        FakeStoreProductGetDto[] fakeStoreProductGetDtos = this.restTemplate.getForObject(
                 "https://fakestoreapi.com/products",
-                FakeStoreProductDto[].class
+                FakeStoreProductGetDto[].class
         );
         List<Product> products = new ArrayList<>();
-        for (FakeStoreProductDto fakeStoreProductDto : fakeStoreProductDtos) {
-            Product product = fakeStoreProductDto.toProduct();
+        for (FakeStoreProductGetDto fakeStoreProductGetDto : fakeStoreProductGetDtos) {
+            Product product = fakeStoreProductGetDto.toProduct();
             products.add(product);
         }
         return products;
+    }
+
+    @Override
+    public Product createProduct(String name, String desc, double price, String imageURL, String category) {
+        //createing FakeStoreProductPostDto object
+        FakeStoreProductPostDto fakeStoreProductPostDto = new FakeStoreProductPostDto();
+        fakeStoreProductPostDto.setTitle(name);
+        fakeStoreProductPostDto.setDescription(desc);
+        fakeStoreProductPostDto.setPrice(price);
+        fakeStoreProductPostDto.setImage(imageURL);
+        fakeStoreProductPostDto.setCategory(category);
+        //sending create request and getting response
+        FakeStoreProductGetDto fakeStoreProductGetDto = this.restTemplate.postForObject(
+                "https://fakestoreapi.com/products",
+                fakeStoreProductPostDto,
+                FakeStoreProductGetDto.class
+        );
+        return fakeStoreProductGetDto.toProduct();
     }
 }

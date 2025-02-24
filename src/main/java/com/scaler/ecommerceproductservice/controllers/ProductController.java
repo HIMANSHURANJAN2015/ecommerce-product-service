@@ -1,14 +1,12 @@
 package com.scaler.ecommerceproductservice.controllers;
 
-import com.scaler.ecommerceproductservice.dtos.ProductResponseDto;
+import com.scaler.ecommerceproductservice.dtos.ProductGetDto;
+import com.scaler.ecommerceproductservice.dtos.ProductPostDto;
 import com.scaler.ecommerceproductservice.models.Product;
-import com.scaler.ecommerceproductservice.services.FakeStoreProductService;
 import com.scaler.ecommerceproductservice.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,25 +24,36 @@ public class ProductController {
     }
 
     //To get details about particular product with given id
-    //We have to give response back to client as ResponseEntity
     @GetMapping("/products/{id}")
-    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable long id) {
+    public ResponseEntity<ProductGetDto> getProductById(@PathVariable long id) {
         Product product = this.productService.getProductById(id);
         //We need to return back DTO, not entire model
-        ProductResponseDto productResponseDto = ProductResponseDto.fromProduct(product);
-        return new ResponseEntity<>(productResponseDto,  HttpStatus.OK);
+        ProductGetDto productGetDto = ProductGetDto.fromProduct(product);
+        return new ResponseEntity<>(productGetDto,  HttpStatus.OK);
     }
 
     //to get list if all products
     @GetMapping("/products")
-    public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
+    public ResponseEntity<List<ProductGetDto>> getAllProducts() {
         List<Product> products = this.productService.getAllProducts();
-        List<ProductResponseDto> productResponseDtos = new ArrayList<ProductResponseDto>();
+        List<ProductGetDto> productGetDtos = new ArrayList<ProductGetDto>();
         for (Product product : products) {
-            ProductResponseDto productResponseDto = ProductResponseDto.fromProduct(product);
-            productResponseDtos.add(productResponseDto);
+            ProductGetDto productGetDto = ProductGetDto.fromProduct(product);
+            productGetDtos.add(productGetDto);
         }
-        return new ResponseEntity<>(productResponseDtos, HttpStatus.OK);
+        return new ResponseEntity<>(productGetDtos, HttpStatus.OK);
     }
 
+    //to create a new product
+    @PostMapping("/products")
+    public ResponseEntity<ProductGetDto> createProduct(@RequestBody ProductPostDto productPostDto) {
+        Product p = this.productService.createProduct(productPostDto.getName(),
+                productPostDto.getDescription(),
+                productPostDto.getPrice(),
+                productPostDto.getImageUrl(),
+                productPostDto.getCategory()
+        );
+        ProductGetDto productGetDto = ProductGetDto.fromProduct(p);
+        return new ResponseEntity<>(productGetDto,  HttpStatus.CREATED);
+    }
 }
