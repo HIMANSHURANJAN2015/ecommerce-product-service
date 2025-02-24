@@ -1,6 +1,7 @@
 package com.scaler.ecommerceproductservice.services;
 
 import com.scaler.ecommerceproductservice.models.Product;
+import java.util.List;
 
 public interface ProductService {
     /*
@@ -9,5 +10,6 @@ public interface ProductService {
     */
 
     Product getProductById(long id);
+    List<Product> getAllProducts();
 
 }

@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class ProductController {
 
@@ -22,6 +25,7 @@ public class ProductController {
         this.productService = productService;
     }
 
+    //To get details about particular product with given id
     //We have to give response back to client as ResponseEntity
     @GetMapping("/products/{id}")
     public ResponseEntity<ProductResponseDto> getProductById(@PathVariable long id) {
@@ -30,4 +34,17 @@ public class ProductController {
         ProductResponseDto productResponseDto = ProductResponseDto.fromProduct(product);
         return new ResponseEntity<>(productResponseDto,  HttpStatus.OK);
     }
+
+    //to get list if all products
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
+        List<Product> products = this.productService.getAllProducts();
+        List<ProductResponseDto> productResponseDtos = new ArrayList<ProductResponseDto>();
+        for (Product product : products) {
+            ProductResponseDto productResponseDto = ProductResponseDto.fromProduct(product);
+            productResponseDtos.add(productResponseDto);
+        }
+        return new ResponseEntity<>(productResponseDtos, HttpStatus.OK);
+    }
+
 }
