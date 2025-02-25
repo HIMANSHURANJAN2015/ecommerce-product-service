@@ -3,6 +3,9 @@ package com.scaler.ecommerceproductservice.services;
 import com.scaler.ecommerceproductservice.dtos.FakeStoreProductResponseDto;
 import com.scaler.ecommerceproductservice.dtos.FakeStoreProductPostRequestDto;
 import com.scaler.ecommerceproductservice.models.Product;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -62,5 +65,26 @@ public class FakeStoreProductService implements ProductService {
                 FakeStoreProductResponseDto.class
         );
         return fakeStoreProductResponseDto.toProduct();
+    }
+
+    @Override
+    public Product updateProduct(long id, String name, String desc, double price, String imageURL, String category){
+        //Using FakeStoreProductPostRequestDto for update also. Creating postrequestdto
+        FakeStoreProductPostRequestDto fakeStoreProductPostRequestDto = new FakeStoreProductPostRequestDto();
+        fakeStoreProductPostRequestDto.setTitle(name);
+        fakeStoreProductPostRequestDto.setDescription(desc);
+        fakeStoreProductPostRequestDto.setPrice(price);
+        fakeStoreProductPostRequestDto.setImage(imageURL);
+        fakeStoreProductPostRequestDto.setCategory(category);
+        //Creating Http request entity
+        //HttpEntity<FakeStoreProductPostRequestDto> requestEntity = new HttpEntity<>(fakeStoreProductPostRequestDto);
+        //Making the request
+        ResponseEntity<FakeStoreProductResponseDto> responseEntity = this.restTemplate.exchange(
+                "https://fakestoreapi.com/products/"+id,
+                HttpMethod.PUT,
+                new HttpEntity<FakeStoreProductPostRequestDto>(fakeStoreProductPostRequestDto),
+               FakeStoreProductResponseDto.class
+        );
+        return responseEntity.getBody().toProduct();
     }
 }
