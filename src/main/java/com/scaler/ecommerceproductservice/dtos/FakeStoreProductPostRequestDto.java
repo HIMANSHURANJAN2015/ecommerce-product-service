@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FakeStoreProductPostDto {
+public class FakeStoreProductPostRequestDto {
     //Attributes are based on POST request format by FakeStoreAPI, except those which we dont need.
     private String title;
     private double price;

@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FakeStoreProductGetDto {
+public class FakeStoreProductResponseDto {
 
     //Attributes are based on GET response format by FakeStoreAPI, except those which we dont need.
     private long id;
