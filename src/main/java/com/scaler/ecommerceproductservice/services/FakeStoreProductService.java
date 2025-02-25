@@ -87,4 +87,9 @@ public class FakeStoreProductService implements ProductService {
         );
         return responseEntity.getBody().toProduct();
     }
+
+    @Override
+    public void deleteProduct(long id){
+        this.restTemplate.delete("https://fakestoreapi.com/products/"+id);
+    }
 }

@@ -71,4 +71,11 @@ public class ProductController {
         ProductResponseDto productResponseDto = ProductResponseDto.fromProduct(p);
         return new ResponseEntity<>(productResponseDto,  HttpStatus.OK);
     }
+
+    //to delete the product
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable long id) {
+        this.productService.deleteProduct(id);
+        return ResponseEntity.ok("Product successfully deleted");
+    }
 }
