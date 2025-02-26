@@ -34,6 +34,9 @@ public class FakeStoreProductService implements ProductService {
                 "https://fakestoreapi.com/products/"+id,
                 FakeStoreProductResponseDto.class
         );
+        if(fakeStoreProductResponseDto ==null) {
+            throw new ProductNotFoundException("Product with id "+id+" not found");
+        }
 
         /*
         //M-1 of exceptional handler(Default exception handler)
@@ -86,6 +89,9 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public Product updateProduct(long id, String name, String desc, double price, String imageURL, String category){
+        //Checking if product exist. If not then throws error
+        getProductById(id);
+
         //Using FakeStoreProductPostRequestDto for update also. Creating postrequestdto
         FakeStoreProductPostRequestDto fakeStoreProductPostRequestDto = new FakeStoreProductPostRequestDto();
         fakeStoreProductPostRequestDto.setTitle(name);
@@ -107,6 +113,9 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public void deleteProduct(long id){
+        //Checking if product exist. If not then throws error
+        getProductById(id);
+
         this.restTemplate.delete("https://fakestoreapi.com/products/"+id);
     }
 }
