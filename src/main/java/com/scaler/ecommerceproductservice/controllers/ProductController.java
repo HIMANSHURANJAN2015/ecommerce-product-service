@@ -1,5 +1,6 @@
 package com.scaler.ecommerceproductservice.controllers;
 
+import com.scaler.ecommerceproductservice.dtos.ErrorDto;
 import com.scaler.ecommerceproductservice.dtos.ProductResponseDto;
 import com.scaler.ecommerceproductservice.dtos.ProductPostRequestDto;
 import com.scaler.ecommerceproductservice.models.Product;
@@ -78,4 +79,30 @@ public class ProductController {
         this.productService.deleteProduct(id);
         return ResponseEntity.ok("Product successfully deleted");
     }
+
+    /*
+    //M-2 of exceptional handler (With Response Entity)
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<ErrorDto> handleNullPointerException() {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setMessage("Null pointer exception occurred");
+        errorDto.setStatus("Failure");
+        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+    }
+
+     */
+
+
+    /*
+    //M-2 of exceptional handler (Without Response Entity)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(NullPointerException.class)
+    public ErrorDto handleNullPointerException() {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setMessage("Null pointer exception occurred");
+        errorDto.setStatus("Failure");
+        return errorDto;
+    }
+
+     */
 }

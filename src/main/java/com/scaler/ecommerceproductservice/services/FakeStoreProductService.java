@@ -2,6 +2,7 @@ package com.scaler.ecommerceproductservice.services;
 
 import com.scaler.ecommerceproductservice.dtos.FakeStoreProductResponseDto;
 import com.scaler.ecommerceproductservice.dtos.FakeStoreProductPostRequestDto;
+import com.scaler.ecommerceproductservice.exceptions.ProductNotFoundException;
 import com.scaler.ecommerceproductservice.models.Product;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class FakeStoreProductService implements ProductService {
@@ -32,6 +34,21 @@ public class FakeStoreProductService implements ProductService {
                 "https://fakestoreapi.com/products/"+id,
                 FakeStoreProductResponseDto.class
         );
+
+        /*
+        //M-1 of exceptional handler(Default exception handler)
+        if(fakeStoreProductResponseDto == null) {
+            throw new NoSuchElementException("No product found with id"+id);
+        }
+        */
+
+        /* using custom exception with m-1(Default exception handler)
+        if(fakeStoreProductResponseDto == null) {
+            throw new ProductNotFoundException("No product found with id"+id);
+        }
+
+         */
+
         return fakeStoreProductResponseDto.toProduct();
     }
 
