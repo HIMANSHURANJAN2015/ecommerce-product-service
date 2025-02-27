@@ -5,6 +5,7 @@ import com.scaler.ecommerceproductservice.dtos.ProductResponseDto;
 import com.scaler.ecommerceproductservice.dtos.ProductPostRequestDto;
 import com.scaler.ecommerceproductservice.models.Product;
 import com.scaler.ecommerceproductservice.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class ProductController {
     //productService type. thus fulfilling Liskov Sibstitution PRinciple
     ProductService productService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(@Qualifier("productDBService") ProductService productService) {
         this.productService = productService;
     }
 
