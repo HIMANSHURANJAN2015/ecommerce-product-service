@@ -1,12 +1,23 @@
 package com.scaler.ecommerceproductservice.services;
 
+import com.scaler.ecommerceproductservice.models.Category;
 import com.scaler.ecommerceproductservice.models.Product;
+import com.scaler.ecommerceproductservice.repositories.CategoryRepository;
+import com.scaler.ecommerceproductservice.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("productDBService")
 public class ProductDBService implements ProductService {
+    ProductRepository productRepository;
+    CategoryRepository categoryRepository;
+
+    public ProductDBService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
     @Override
     public Product getProductById(long id){
@@ -20,7 +31,15 @@ public class ProductDBService implements ProductService {
 
     @Override
     public Product createProduct(String name, String desc, double price, String imageURL, String category){
-        return null;
+        Product product = new Product();
+        product.setName(name);
+        product.setDescription(desc);
+        product.setPrice(price);
+        product.setImageUrl(imageURL);
+
+        Category categoryObj = getCategoryFromDB(category);
+        product.setCategory(categoryObj);
+        return productRepository.save(product);
     }
 
     @Override
@@ -31,5 +50,15 @@ public class ProductDBService implements ProductService {
     @Override
     public void deleteProduct(long id){
 
+    }
+
+    private Category getCategoryFromDB(String name){
+        Optional<Category> categoryObj = categoryRepository.findByName(name);
+        if(categoryObj.isPresent()){
+            return categoryObj.get();
+        }
+        Category category = new Category();
+        category.setName(name);
+        return categoryRepository.save(category);
     }
 }
