@@ -1,5 +1,6 @@
 package com.scaler.ecommerceproductservice.services;
 
+import com.scaler.ecommerceproductservice.exceptions.ProductNotFoundException;
 import com.scaler.ecommerceproductservice.models.Category;
 import com.scaler.ecommerceproductservice.models.Product;
 import com.scaler.ecommerceproductservice.repositories.CategoryRepository;
@@ -21,7 +22,12 @@ public class ProductDBService implements ProductService {
 
     @Override
     public Product getProductById(long id){
-        return null;
+        Optional<Product> product = productRepository.findById(id);
+        if(product.isPresent()){
+            return product.get();
+        } else {
+            throw new ProductNotFoundException("Product with id = " + id + " not found");
+        }
     }
 
     @Override
