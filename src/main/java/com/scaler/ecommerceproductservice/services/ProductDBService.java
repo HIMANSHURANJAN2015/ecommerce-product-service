@@ -50,7 +50,14 @@ public class ProductDBService implements ProductService {
 
     @Override
     public Product updateProduct(long id, String name, String desc, double price, String imageURL, String category){
-        return null;
+        Product product = getProductById(id);
+        product.setName(name);
+        product.setDescription(desc);
+        product.setPrice(price);
+        product.setImageUrl(imageURL);
+        Category categoryObj = getCategoryFromDB(category);
+        product.setCategory(categoryObj);
+        return productRepository.save(product);
     }
 
     @Override
