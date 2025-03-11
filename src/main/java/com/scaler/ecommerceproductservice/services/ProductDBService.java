@@ -5,12 +5,15 @@ import com.scaler.ecommerceproductservice.models.Category;
 import com.scaler.ecommerceproductservice.models.Product;
 import com.scaler.ecommerceproductservice.repositories.CategoryRepository;
 import com.scaler.ecommerceproductservice.repositories.ProductRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service("productDBService")
+//@Service("productDBService")
+@Service
+@Profile("default")
 public class ProductDBService implements ProductService {
     ProductRepository productRepository;
     CategoryRepository categoryRepository;

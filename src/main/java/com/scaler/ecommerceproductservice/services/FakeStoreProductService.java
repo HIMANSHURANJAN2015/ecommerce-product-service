@@ -4,6 +4,7 @@ import com.scaler.ecommerceproductservice.dtos.FakeStoreProductResponseDto;
 import com.scaler.ecommerceproductservice.dtos.FakeStoreProductPostRequestDto;
 import com.scaler.ecommerceproductservice.exceptions.ProductNotFoundException;
 import com.scaler.ecommerceproductservice.models.Product;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@Service("fakeStoreProductService")
+//@Service("fakeStoreProductService")
+@Service
+@Profile("fakestoremode")
 public class FakeStoreProductService implements ProductService {
 
     //To call 3rd party API, we use RestTemplate

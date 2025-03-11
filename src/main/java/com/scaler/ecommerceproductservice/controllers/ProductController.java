@@ -21,7 +21,8 @@ public class ProductController {
     //productService type. thus fulfilling Liskov Sibstitution PRinciple
     ProductService productService;
 
-    public ProductController(@Qualifier("productDBService") ProductService productService) {
+    //public ProductController(@Qualifier("productDBService") ProductService productService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
