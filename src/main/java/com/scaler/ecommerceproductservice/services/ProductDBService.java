@@ -62,7 +62,10 @@ public class ProductDBService implements ProductService {
 
     @Override
     public void deleteProduct(long id){
+        //checking if product with given id exits, if not then throw error
+        Product product = getProductById(id);
 
+        productRepository.delete(product);
     }
 
     private Category getCategoryFromDB(String name){
