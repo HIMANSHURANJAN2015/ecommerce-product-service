@@ -73,6 +73,11 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
+    public List<Product> getProductsByCategory(String categoryName){
+        return null;
+    }
+
+    @Override
     public Product createProduct(String name, String desc, double price, String imageURL, String category) {
         //createing FakeStoreProductPostDto object
         FakeStoreProductPostRequestDto fakeStoreProductPostRequestDto = new FakeStoreProductPostRequestDto();

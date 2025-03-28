@@ -37,8 +37,13 @@ public class ProductController {
 
     //to get list if all products
     @GetMapping("/products")
-    public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
-        List<Product> products = this.productService.getAllProducts();
+    public ResponseEntity<List<ProductResponseDto>> getAllProducts(@RequestParam(required = false) String category) {
+        List<Product> products = null;
+        if (category != null) {
+            products = this.productService.getProductsByCategory(category);
+        } else {
+            products = this.productService.getAllProducts();
+        }
         List<ProductResponseDto> productResponseDtos = new ArrayList<ProductResponseDto>();
         for (Product product : products) {
             ProductResponseDto productResponseDto = ProductResponseDto.fromProduct(product);

@@ -39,6 +39,16 @@ public class ProductDBService implements ProductService {
     }
 
     @Override
+    public List<Product> getProductsByCategory(String categoryName){
+        //m-1 using named query "(most optimal)
+        //return productRepository.findByCategory_Name(categoryName);
+        //m-2 using HQL
+        //return productRepository.findProductsByCategoryName(categoryName);
+        //M-3 using named query
+        return productRepository.findProductsByCategoryNameNative(categoryName);
+    }
+
+    @Override
     public Product createProduct(String name, String desc, double price, String imageURL, String category){
         Product product = new Product();
         product.setName(name);
