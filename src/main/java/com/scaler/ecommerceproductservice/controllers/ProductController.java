@@ -1,11 +1,11 @@
 package com.scaler.ecommerceproductservice.controllers;
 
-import com.scaler.ecommerceproductservice.dtos.ErrorDto;
 import com.scaler.ecommerceproductservice.dtos.ProductResponseDto;
 import com.scaler.ecommerceproductservice.dtos.ProductPostRequestDto;
+import com.scaler.ecommerceproductservice.dtos.ProductWithoutDescRequestDto;
 import com.scaler.ecommerceproductservice.models.Product;
+import com.scaler.ecommerceproductservice.services.ProductAIService;
 import com.scaler.ecommerceproductservice.services.ProductService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +20,12 @@ public class ProductController {
     //To prevent tigh couploing b/w FakeStoreProductService and controller, I am using
     //productService type. thus fulfilling Liskov Sibstitution PRinciple
     ProductService productService;
+    private final ProductAIService productAIService;
 
     //public ProductController(@Qualifier("productDBService") ProductService productService) {
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ProductAIService productAIService) {
         this.productService = productService;
+        this.productAIService = productAIService;
     }
 
     //To get details about particular product with given id
@@ -63,6 +65,20 @@ public class ProductController {
         );
         ProductResponseDto productResponseDto = ProductResponseDto.fromProduct(p);
         return new ResponseEntity<>(productResponseDto,  HttpStatus.CREATED);
+    }
+
+    @PostMapping("/products-without-description")
+    public ProductResponseDto createProductWithAIDescription(
+            @RequestBody ProductWithoutDescRequestDto productWithoutDescDto)
+    {
+        Product product = productAIService.createProductWithAIDescription(
+                productWithoutDescDto.getName(),
+                productWithoutDescDto.getPrice(),
+                productWithoutDescDto.getImageUrl(),
+                productWithoutDescDto.getCategory()
+        );
+
+        return ProductResponseDto.fromProduct(product);
     }
 
     //to update product
