@@ -20,6 +20,10 @@ public class ProductResponseDto {
     private String category;
 
     public static ProductResponseDto fromProduct(Product product) {
+        //After adding, negative test cases it was failing, so I should handle null cases
+        if(product == null) {
+            return null;
+        }
         ProductResponseDto productResponseDto = new ProductResponseDto();
         productResponseDto.setId(product.getId());
         productResponseDto.setName(product.getName());
